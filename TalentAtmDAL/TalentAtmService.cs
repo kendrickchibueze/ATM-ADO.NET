@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TalentAtmDAL
 {
-    public  class TalentAtmService : ITalentAtmService
+    public class TalentAtmService : ITalentAtmService
     {
 
         private static CultureInfo _enculture = new CultureInfo("en-US");
@@ -44,9 +36,9 @@ namespace TalentAtmDAL
 
 
 
-     
 
-      
+
+
 
 
         public async Task<bool> MakeWithdrawalAsync(BankAccounts bankAccount, decimal withdrawalAmount)
@@ -153,7 +145,7 @@ namespace TalentAtmDAL
 
                         bankAccount.Balance = balance;
                         bankAccount.FullName = fullName;
-                        
+
                         Console.WriteLine($"Welcome {bankAccount.FullName}, your Balance  is {FormatAmount(bankAccount.Balance)}");
 
                         return bankAccount;
@@ -168,7 +160,7 @@ namespace TalentAtmDAL
         }
 
 
-     
+
 
 
         public async Task<BankAccounts> DepositMoney(BankAccounts bankAccount, decimal depositAmount)
@@ -201,94 +193,103 @@ namespace TalentAtmDAL
 
 
 
-       
-
         public async Task<bool> verifyCardNumberPassword(BankAccounts bankAccount)
         {
             SqlConnection sqlConn = await _dbContext.OpenConnection();
 
-           string selectQuery = "SELECT isLocked, FailedAttempts FROM BankAccounts WHERE AccountNumber = @AccountNumber";
+            string selectQuery = "SELECT isLocked, FailedAttempts FROM BankAccounts WHERE AccountNumber = @AccountNumber";
 
-        using (SqlCommand selectCommand = new SqlCommand(selectQuery, sqlConn))
-        {
-            selectCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
-
-            using (SqlDataReader reader = selectCommand.ExecuteReader())
+            using (SqlCommand selectCommand = new SqlCommand(selectQuery, sqlConn))
             {
-                if (reader.Read())
+                selectCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
+
+                using (SqlDataReader reader = selectCommand.ExecuteReader())
                 {
-                    bool isLocked = (bool)reader["isLocked"];
-
-                    int failedAttempts = (int)reader["FailedAttempts"];
-
-                    if (isLocked)
+                    if (reader.Read())
                     {
-                        Console.WriteLine("The account is locked due to too many failed attempts.");
-                        return false;
-                    }
-                    else
-                    {
-                        string verifyQuery = "SELECT * FROM BankAccounts WHERE AccountNumber = @AccountNumber AND CardNumber = @CardNumber AND PinCode = @PinCode";
-                        using (SqlCommand verifyCommand = new SqlCommand(verifyQuery, sqlConn))
+                        bool isLocked = (bool)reader["isLocked"];
+
+                        int failedAttempts = (int)reader["FailedAttempts"];
+
+                        if (isLocked)
                         {
-                            verifyCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
+                            Console.WriteLine("The account is locked due to too many failed attempts.");
+                            return false;
+                        }
+                        else
+                        {
+                            string verifyQuery = "SELECT * FROM BankAccounts WHERE AccountNumber = @AccountNumber AND " +
+                                                 "CardNumber = @CardNumber AND PinCode = @PinCode";
 
-                            verifyCommand.Parameters.AddWithValue("@CardNumber", bankAccount.CardNumber);
 
-                            verifyCommand.Parameters.AddWithValue("@PinCode", bankAccount.PinCode);
-
-                            using (SqlDataReader verifyReader = verifyCommand.ExecuteReader())
+                            using (SqlCommand verifyCommand = new SqlCommand(verifyQuery, sqlConn))
                             {
-                                if (!verifyReader.HasRows)
-                                {
-                                    // Increment the number of failed attempts
-                                    string updateQuery = "UPDATE BankAccounts SET FailedAttempts = FailedAttempts + 1 WHERE AccountNumber = @AccountNumber";
-                                    using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConn))
-                                    {
-                                        updateCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
-                                        updateCommand.ExecuteNonQuery();
-                                    }
+                                verifyCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
 
-                                    // Check if the account should be locked
-                                    if (failedAttempts + 1 >= _maxtries)
+                                verifyCommand.Parameters.AddWithValue("@CardNumber", bankAccount.CardNumber);
+
+                                verifyCommand.Parameters.AddWithValue("@PinCode", bankAccount.PinCode);
+
+                                using (SqlDataReader verifyReader = verifyCommand.ExecuteReader())
+                                {
+                                    if (!verifyReader.HasRows)
                                     {
-                                        // Lock the account
-                                        string blockQuery = "UPDATE BankAccounts SET isLocked = 1, FailedAttempts = 3 WHERE AccountNumber = @AccountNumber";
-                                        using (SqlCommand blockCommand = new SqlCommand(blockQuery, sqlConn))
+                                        // Increment the number of failed attempts
+                                        string updateQuery = "UPDATE BankAccounts SET FailedAttempts = FailedAttempts + 1 WHERE " +
+                                                              "AccountNumber = @AccountNumber";
+
+                                        using (SqlCommand updateCommand = new SqlCommand(updateQuery, sqlConn))
                                         {
-                                            blockCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
-                                            blockCommand.ExecuteNonQuery();
+                                            updateCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
+                                            updateCommand.ExecuteNonQuery();
                                         }
 
-                                        Console.WriteLine("The account has been locked due to too many failed attempts.");
-
-                                        return false;
+                                        return BlockAccount(bankAccount, sqlConn, failedAttempts);
                                     }
                                     else
                                     {
-                                        return false;
+                                        return true;
                                     }
-                                }
-                                else
-                                {
-                                    return true;
                                 }
                             }
                         }
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Account not found.");
-                    return false;
+                    else
+                    {
+                        Console.WriteLine("Account not found.");
+                        return false;
+                    }
                 }
             }
         }
+
+        private bool BlockAccount(BankAccounts bankAccount, SqlConnection sqlConn, int failedAttempts)
+        {
+            // Check if the account should be locked
+            if (failedAttempts + 1 >= _maxtries)
+            {
+                // Lock the account
+                string blockQuery = "UPDATE BankAccounts SET isLocked = 1, FailedAttempts = 3 WHERE " +
+                                      "AccountNumber = @AccountNumber";
+
+                using (SqlCommand blockCommand = new SqlCommand(blockQuery, sqlConn))
+                {
+                    blockCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
+
+                    blockCommand.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("The account has been locked due to too many failed attempts.");
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-
-
-
+    
 
 
         public async Task<bool> ViewAllTransactions(BankAccounts bankAccount)
@@ -299,10 +300,8 @@ namespace TalentAtmDAL
                 {
 
                     string transactQuery = "SELECT t.TransactionId, t.TransactionDate, t.TransactionAmount, " +
-                                            "t.TransactionTypeId, tt.TransactionTypeName, a.FullName, b.FullName " +
+                                            "t.TransactionTypeId, tt.TransactionTypeName " +
                                             "FROM Transactions t " +
-                                            "INNER JOIN BankAccounts a ON t.BankAccountNoFrom = a.AccountNumber " +
-                                            "INNER JOIN BankAccounts b ON t.BankAccountNoTo = b.AccountNumber " +
                                             "INNER JOIN TransactionType tt ON t.TransactionTypeId = tt.TransactionTypeId";
 
                     using (SqlCommand command = new SqlCommand(transactQuery, sqlConn))
@@ -315,13 +314,12 @@ namespace TalentAtmDAL
                                 DateTime transactionDate = (DateTime)reader["TransactionDate"];
                                 decimal transactionAmount = (decimal)reader["TransactionAmount"];
                                 string transactionTypeName = (string)reader["TransactionTypeName"];
-                                string fromAccountName = (string)reader[5];
-                                string toAccountName = (string)reader[6];
 
-                                Console.WriteLine("Transaction Id: {0}, Date: {1}, Amount: {2}, Type: {3}, From: {4}, To: {5}", 
-                                          transactionId, transactionDate, transactionAmount, transactionTypeName, fromAccountName, toAccountName);
+                                Console.WriteLine("Transaction Id: {0}, Date: {1}, Amount: {2}, Type: {3}",
+                                    transactionId, transactionDate, transactionAmount, transactionTypeName);
                             }
                         }
+
                     }
                 }
                 return true;
@@ -332,6 +330,11 @@ namespace TalentAtmDAL
                 return false;
             }
         }
+
+
+
+
+
 
 
 
