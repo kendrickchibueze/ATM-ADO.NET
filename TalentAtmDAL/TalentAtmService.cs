@@ -44,89 +44,9 @@ namespace TalentAtmDAL
 
 
 
-        public async Task<bool> performTransferAsync(BankAccounts bankAccount, VmTransfer transfer)
-        {
-            SqlConnection sqlConn = await _dbContext.OpenConnection();
+     
 
-            var transferSql = @"
-                            BEGIN TRANSACTION
-                                UPDATE BankAccounts SET Balance = Balance - @TransferAmount WHERE AccountNumber = @SenderAccountNumber;
-                                UPDATE BankAccounts SET Balance = Balance + @TransferAmount WHERE AccountNumber = @RecipientAccountNumber;
-                                INSERT INTO Transactions (BankAccountNoFrom, BankAccountNoTo, TransactionTypeId, TransactionAmount, TransactionDate)
-                                VALUES (@SenderAccountNumber, @RecipientAccountNumber, 1, @TransferAmount, GETDATE());
-                            COMMIT TRANSACTION";
-
-            int senderAccountNumber = bankAccount.AccountNumber;
-            Int64 recipientAccountNumber = transfer.RecipientBankAccountNumber;
-            decimal transferAmount = transfer.TransferAmount;
-
-            using (var command = new SqlCommand(transferSql, sqlConn))
-            {
-                command.Parameters.AddWithValue("@TransferAmount", transferAmount);
-                command.Parameters.AddWithValue("@SenderAccountNumber", senderAccountNumber);
-                command.Parameters.AddWithValue("@RecipientAccountNumber", recipientAccountNumber);
-
-                var transferResult = await command.ExecuteNonQueryAsync();
-                Console.WriteLine($"{transferResult} rows updated.");
-            }
-
-            return true;
-        }
-
-        //public async Task<decimal> performTransferAsync(BankAccounts bankAccount, VmTransfer transfer)
-        //{
-        //    SqlConnection sqlConn = await _dbContext.OpenConnection();
-
-        //    var transferSql = @"
-        //            BEGIN TRANSACTION
-        //                UPDATE BankAccounts SET Balance = Balance - @TransferAmount WHERE CardNumber = @CardNumber AND PinCode = @PinCode;
-        //                UPDATE BankAccounts SET Balance = Balance + @TransferAmount WHERE AccountNumber = @RecipientAccountNumber;
-        //                INSERT INTO Transactions (BankAccountNoFrom, BankAccountNoTo, TransactionTypeId, TransactionAmount, TransactionDate)
-        //                VALUES (@SenderAccountNumber, @RecipientAccountNumber, 1, @TransferAmount, GETDATE());
-        //            COMMIT TRANSACTION";
-
-        //    decimal senderBalanceBefore = bankAccount.Balance;
-
-        //    using (var command = new SqlCommand(transferSql, sqlConn))
-        //    {
-        //        command.Parameters.AddWithValue("@TransferAmount", transfer.TransferAmount);
-        //        command.Parameters.AddWithValue("@CardNumber", bankAccount.CardNumber);
-        //        command.Parameters.AddWithValue("@PinCode", bankAccount.PinCode);
-        //        command.Parameters.AddWithValue("@SenderAccountNumber", bankAccount.AccountNumber);
-        //        command.Parameters.AddWithValue("@RecipientAccountNumber", transfer.RecipientBankAccountNumber);
-
-        //        var transferResult = await command.ExecuteNonQueryAsync();
-        //        Console.WriteLine($"{transferResult} rows updated.");
-
-        //        decimal senderBalanceAfter = senderBalanceBefore - transfer.TransferAmount;
-        //        decimal recipientBalance = await GetBalanceAsync(transfer.RecipientBankAccountNumber);
-
-        //        Console.WriteLine($"Amount transferred: {transfer.TransferAmount:C}");
-        //        Console.WriteLine($"Sender balance: {senderBalanceAfter:C}");
-        //        Console.WriteLine($"Recipient balance: {recipientBalance:C}");
-
-        //        return transfer.TransferAmount;
-        //    }
-        //}
-
-        //public async Task<decimal> GetBalanceAsync(long accountNumber)
-        //{
-        //    SqlConnection sqlConn = await _dbContext.OpenConnection();
-
-        //    var balanceSql = @"SELECT Balance FROM BankAccounts WHERE AccountNumber = @AccountNumber";
-        //    using (var command = new SqlCommand(balanceSql, sqlConn))
-        //    {
-        //        command.Parameters.AddWithValue("@AccountNumber", accountNumber);
-        //        var balance = (decimal)await command.ExecuteScalarAsync();
-        //        return balance;
-        //    }
-        //}
-
-
-
-
-
-
+      
 
 
         public async Task<bool> MakeWithdrawalAsync(BankAccounts bankAccount, decimal withdrawalAmount)
@@ -174,7 +94,40 @@ namespace TalentAtmDAL
 
 
 
+        public async Task<bool> performTransferAsync(BankAccounts bankAccount, VmTransfer transfer)
+        {
+            SqlConnection sqlConn = await _dbContext.OpenConnection();
 
+            var transferSql = @"
+                            BEGIN TRANSACTION
+                                UPDATE BankAccounts SET Balance = Balance - @TransferAmount WHERE AccountNumber = @SenderAccountNumber;
+                                UPDATE BankAccounts SET Balance = Balance + @TransferAmount WHERE AccountNumber = @RecipientAccountNumber;
+                                INSERT INTO Transactions (BankAccountNoFrom, BankAccountNoTo, TransactionTypeId, TransactionAmount, TransactionDate)
+                                VALUES (@SenderAccountNumber, @RecipientAccountNumber, 1, @TransferAmount, GETDATE());
+                            COMMIT TRANSACTION";
+
+            int senderAccountNumber = bankAccount.AccountNumber;
+            Int64 recipientAccountNumber = transfer.RecipientBankAccountNumber;
+            decimal transferAmount = transfer.TransferAmount;
+
+            using (var command = new SqlCommand(transferSql, sqlConn))
+            {
+                command.Parameters.AddWithValue("@TransferAmount", transferAmount);
+                command.Parameters.AddWithValue("@SenderAccountNumber", senderAccountNumber);
+                command.Parameters.AddWithValue("@RecipientAccountNumber", recipientAccountNumber);
+
+                var transferResult = await command.ExecuteNonQueryAsync();
+
+                Console.WriteLine($"{transferResult} rows updated.");
+
+                Console.WriteLine($"Amount transferred: {transferAmount:C}");
+
+
+            }
+
+
+            return true;
+        }
 
 
 
@@ -259,6 +212,7 @@ namespace TalentAtmDAL
         using (SqlCommand selectCommand = new SqlCommand(selectQuery, sqlConn))
         {
             selectCommand.Parameters.AddWithValue("@AccountNumber", bankAccount.AccountNumber);
+
             using (SqlDataReader reader = selectCommand.ExecuteReader())
             {
                 if (reader.Read())
@@ -337,14 +291,57 @@ namespace TalentAtmDAL
 
 
 
+        public async Task<bool> ViewAllTransactions(BankAccounts bankAccount)
+        {
+            try
+            {
+                using (SqlConnection sqlConn = await _dbContext.OpenConnection())
+                {
+
+                    string transactQuery = "SELECT t.TransactionId, t.TransactionDate, t.TransactionAmount, " +
+                                            "t.TransactionTypeId, tt.TransactionTypeName, a.FullName, b.FullName " +
+                                            "FROM Transactions t " +
+                                            "INNER JOIN BankAccounts a ON t.BankAccountNoFrom = a.AccountNumber " +
+                                            "INNER JOIN BankAccounts b ON t.BankAccountNoTo = b.AccountNumber " +
+                                            "INNER JOIN TransactionType tt ON t.TransactionTypeId = tt.TransactionTypeId";
+
+                    using (SqlCommand command = new SqlCommand(transactQuery, sqlConn))
+                    {
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                int transactionId = (int)reader["TransactionId"];
+                                DateTime transactionDate = (DateTime)reader["TransactionDate"];
+                                decimal transactionAmount = (decimal)reader["TransactionAmount"];
+                                string transactionTypeName = (string)reader["TransactionTypeName"];
+                                string fromAccountName = (string)reader[5];
+                                string toAccountName = (string)reader[6];
+
+                                Console.WriteLine("Transaction Id: {0}, Date: {1}, Amount: {2}, Type: {3}, From: {4}, To: {5}", 
+                                          transactionId, transactionDate, transactionAmount, transactionTypeName, fromAccountName, toAccountName);
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error viewing all transactions: " + ex.Message);
+                return false;
+            }
+        }
 
 
-      
-
-      
 
 
-      
+
+
+
+
+
+
 
         protected virtual void Dispose(bool disposing)
         {

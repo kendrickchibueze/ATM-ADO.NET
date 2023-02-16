@@ -95,7 +95,13 @@ namespace TalentAtmDAL
                 VALUES
                 (1001, 'John Doe', 12345678901234, 1234, 1000.00, 0),
                 (1002, 'Jane Smith', 23456789012345, 2345, 5000.00, 0),
-                (1003, 'Robert Johnson', 34567890123456, 3456, 7500.00, 1); ";
+                (1003, 'Dave Gray', 23456789012346, 3456, 8000.00, 0),
+                (1004, 'Frank Johnson', 23456789012347,3457, 6000.00, 0),
+                (1005, 'Steve Crown', 23456789012348, 3458, 9000.00, 0),
+                (1006, 'Allen Skott', 23456789012349, 3459, 4000.00, 0),
+                (1008, 'Terry John', 23456789012340, 4567, 2000.00, 0),
+                (1009, 'Smith Curry', 23456789012341, 5643, 3000.00, 0),
+                (1011, 'Robert Johnson', 34567890123456, 3456, 7500.00, 1); ";
 
             // SQL query to insert data into the VmTransfers table
             string insertVmTransfersTableQuery = @"

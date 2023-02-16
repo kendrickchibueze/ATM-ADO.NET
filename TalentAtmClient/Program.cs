@@ -22,7 +22,7 @@ namespace TalentAtmClient
 
 
 
-            
+
 
             //TalentAtmDB talentDB = new();
 

@@ -89,44 +89,28 @@ namespace TalentAtmClient
 
                 //transfer money
 
-                //var senderAccount = new BankAccounts {
 
-                //    //CardNumber = 23456789012345,
-                //    //PinCode = 2345,
-                //    AccountNumber = 1002
+                //BankAccounts bankAccount = new BankAccounts
+                //{
+                //    CardNumber = 23456789012346,
+                //    PinCode = 3456,
+                //    AccountNumber = 1003
 
                 //};
-                //var transfer = new VmTransfer { 
-                //    RecipientBankAccountNumber = 1003,
-                //    TransferAmount = 1000
+
+                //VmTransfer transfer = new VmTransfer
+                //{
+                //    RecipientBankAccountNumber = 1001,
+                //    TransferAmount = 1000.00m
                 //};
 
-                //bool success = await talentAtmService.performTransferAsync(senderAccount, transfer);
-                //if (success)
-                //{
-                //    Console.WriteLine($"Transfer successful.");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"Transfer failed.");
-                //}
+                //await talentAtmService.performTransferAsync(bankAccount, transfer);
 
 
 
-                BankAccounts bankAccount = new BankAccounts
-                {
-                    CardNumber = 34567890123456,
-                    PinCode = 3456
-                    
-                };
+                BankAccounts bankAccount = new BankAccounts(); // create a BankAccounts object as needed
+                bool success = await talentAtmService.ViewAllTransactions(bankAccount);
 
-                VmTransfer transfer = new VmTransfer
-                {
-                    RecipientBankAccountNumber = 1003,
-                    TransferAmount = 100.00m
-                };
-
-                 await talentAtmService.performTransferAsync(bankAccount, transfer);
 
 
 
