@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Stripe.net" Version="41.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TalentAtmDAL\TalentAtmDAL.csproj" />
   </ItemGroup>
 

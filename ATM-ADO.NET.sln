@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentAtmDAL", "TalentAtmDA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TalentAtmClient", "TalentAtmClient\TalentAtmClient.csproj", "{57CA0925-3DB1-403E-AB44-1CD0B5C5E0E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Atm.UI", "Atm.UI", "{320EF16F-A7B3-47EF-9E61-E99987220A5A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,7 +30,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B48CE6C2-3D92-414E-83C8-D9FBC49E2CB9} = {94D6262E-0093-4721-90B9-EE7C466FBA3F}
 		{57CA0925-3DB1-403E-AB44-1CD0B5C5E0E1} = {94D6262E-0093-4721-90B9-EE7C466FBA3F}
-		{320EF16F-A7B3-47EF-9E61-E99987220A5A} = {94D6262E-0093-4721-90B9-EE7C466FBA3F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C5B5176-5E07-4046-A234-BBF219E1D8CC}

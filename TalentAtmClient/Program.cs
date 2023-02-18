@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using TalentAtmClient.Atm.UI;
 using TalentAtmDAL;
 
 namespace TalentAtmClient
