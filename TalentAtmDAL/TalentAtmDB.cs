@@ -10,7 +10,7 @@ namespace TalentAtmDAL
     public  class TalentAtmDB
     {
 
-        public async Task CreateDBAndTables()
+        public  static async Task CreateDBAndTables()
         {
             // Connection string for the local SQL Server instance
             string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";

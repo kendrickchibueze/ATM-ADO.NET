@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Stripe;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TalentAtmDAL;
 
 namespace TalentAtmClient.Atm.UI
 {
@@ -39,6 +41,14 @@ namespace TalentAtmClient.Atm.UI
             Utility.PrintColorMessage(ConsoleColor.Yellow, "| 6. Logout                  |");
             Utility.PrintColorMessage(ConsoleColor.Yellow, "|                            |");
             Utility.PrintColorMessage(ConsoleColor.Yellow, " ---------------------------");
+
+
+
+
+
+
+
+            
         }
 
 

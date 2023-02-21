@@ -9,26 +9,10 @@ namespace TalentAtmClient
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("************Welcome To My Bank Atm App*************");
+            Utility.PrintColorMessage(ConsoleColor.Cyan, "************Welcome To My Bank Atm App*************");
 
 
-
-            RunClient client = new RunClient();
-
-            await client.Run();
-
-
-
-
-
-
-
-
-
-            //TalentAtmDB talentDB = new();
-
-            //await talentDB.CreateDBAndTables();
-
+            await LoginAdminUser.Login();
 
 
 

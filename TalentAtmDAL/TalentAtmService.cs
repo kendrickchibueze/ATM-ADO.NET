@@ -147,7 +147,7 @@ namespace TalentAtmDAL
                         bankAccount.FullName = fullName;
 
                         Console.WriteLine($"Welcome {bankAccount.FullName}, your Balance  is {FormatAmount(bankAccount.Balance)}");
-
+                       
                         return bankAccount;
                     }
                     else
@@ -289,7 +289,7 @@ namespace TalentAtmDAL
             }
         }
 
-    
+
 
 
         public async Task<bool> ViewAllTransactions(BankAccounts bankAccount)
@@ -330,6 +330,62 @@ namespace TalentAtmDAL
                 return false;
             }
         }
+
+
+
+
+        //public async Task<bool> ViewAllTransactions(BankAccounts bankAccount, long loggedInAccountNumber)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection sqlConn = await _dbContext.OpenConnection())
+        //        {
+        //            string transactQuery = "SELECT TOP 1 t.TransactionId, t.TransactionDate, t.TransactionAmount, " +
+        //                                    "t.TransactionTypeId, tt.TransactionTypeName " +
+        //                                    "FROM Transactions t " +
+        //                                    "INNER JOIN TransactionType tt ON t.TransactionTypeId = tt.TransactionTypeId " +
+        //                                    "WHERE (t.BankAccountNoFrom = @loggedInBankAccountNumber OR t.BankAccountNoTo = @loggedInBankAccountNumber) " +
+        //                                    "AND (t.BankAccountNoFrom = @bankAccountNumber OR t.BankAccountNoTo = @bankAccountNumber) " +
+        //                                    "ORDER BY t.TransactionDate DESC";
+
+        //            using (SqlCommand command = new SqlCommand(transactQuery, sqlConn))
+        //            {
+        //                command.Parameters.AddWithValue("@bankAccountNumber", bankAccount.AccountNumber);
+        //                command.Parameters.AddWithValue("@loggedInBankAccountNumber", loggedInAccountNumber);
+
+        //                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+        //                {
+        //                    if (!reader.HasRows)
+        //                    {
+        //                        Console.WriteLine("You have no transactions yet.");
+        //                        return true;
+        //                    }
+        //                    while (await reader.ReadAsync())
+        //                    {
+        //                        int transactionId = (int)reader["TransactionId"];
+        //                        DateTime transactionDate = (DateTime)reader["TransactionDate"];
+        //                        decimal transactionAmount = (decimal)reader["TransactionAmount"];
+        //                        string transactionTypeName = (string)reader["TransactionTypeName"];
+
+        //                        Console.WriteLine("Transaction Id: {0}, Date: {1}, Amount: {2}, Type: {3}",
+        //                            transactionId, transactionDate, transactionAmount, transactionTypeName);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Error viewing recent transaction: " + ex.Message);
+        //        return false;
+        //    }
+        //}
+
+
+
+
 
 
 
