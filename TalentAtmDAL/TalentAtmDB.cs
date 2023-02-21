@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL
 {
@@ -117,53 +118,53 @@ namespace TalentAtmDAL
                 {
                     connection.Open();
 
-                    // Create the TalentAtmDB database
+                    // Create the PTalentAtmDB database
                     using (SqlCommand command = new SqlCommand(createDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Created PTalentAtmDB database.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Created PTalentAtmDB database.");
                     }
 
-                    // Use the TalentAtmDB database
+                    // Use the PTalentAtmDB database
                     using (SqlCommand command = new SqlCommand(useDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Using PTalentAtmDB database.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Using PTalentAtmDB database.");
                     }
 
                     // Create the BankAccounts table
                     using (SqlCommand command = new SqlCommand(createBankAccountsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Created BankAccounts table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Created BankAccounts table.");
                     }
 
                     // Create the TransactionType table
                     using (SqlCommand command = new SqlCommand(createTransactionTypeTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Created TransactionType table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Created TransactionType table.");
                     }
 
                     // Create the Transactions table
                     using (SqlCommand command = new SqlCommand(createTransactionsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Created Transactions table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Created Transactions table.");
                     }
 
                     // Create the VmTransfers table
                     using (SqlCommand command = new SqlCommand(createVmTransfersTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Created VmTransfers table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Created VmTransfers table.");
                     }
 
                     // Populate the TransactionType table
                     using (SqlCommand command = new SqlCommand(populateTransactionTypeTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Populated TransactionType table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Populated TransactionType table.");
                     }
 
 
@@ -172,7 +173,7 @@ namespace TalentAtmDAL
                     using (SqlCommand command = new SqlCommand(insertBankAccountsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Inserted data into BankAccounts table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
                     }
 
 
@@ -180,14 +181,14 @@ namespace TalentAtmDAL
                     using (SqlCommand command = new SqlCommand(insertTransactionsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Inserted data into Transactions table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into Transactions table.");
                     }
 
                     // Insert data into the VmTransfers table
                     using (SqlCommand command = new SqlCommand(insertVmTransfersTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Console.WriteLine("Inserted data into VmTransfers table.");
+                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into VmTransfers table.");
                     }
 
                     connection.Close();
