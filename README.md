@@ -15,7 +15,7 @@ A pragmatic run of ourexecutable assembly looks like this:
 * **Project Type**: Console
 * **IDE**: Visual Studio (Version 2022)
 * **Paradigm or pattern of programming**: Object-Oriented Programming (OOP)
-* **Data**: Data of this demo program (Bank Account and Transaction data) are stored using List objects. No database is used on purpose for this demo version.
+* **DataBase**: I seeded data into  tables in the database.An SQL database  and query are used on purpose for this Atm project.
 
  ## ATM Basic Features / Use Cases 👓👌👌:
  * Check account balance
