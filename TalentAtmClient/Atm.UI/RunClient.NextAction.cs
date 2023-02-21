@@ -86,7 +86,7 @@ namespace TalentAtmClient.Atm.UI
 
                         break;
                     case 5:
-                        await talentAtmService.ViewAllTransactions(bankAccount);
+                        await talentAtmService.ViewAllTransactions(bankAccount, bankAccount.AccountNumber);
 
                         goto next;
 

@@ -19,7 +19,7 @@ namespace TalentAtmDAL
 
          Task<bool> verifyCardNumberPassword(BankAccounts bankAccount);
 
-        Task<bool>ViewAllTransactions(BankAccounts bankAccount);    
+        Task<bool>ViewAllTransactions(BankAccounts bankAccount, long loggedInAccountNumber);    
 
         
     }

@@ -116,7 +116,7 @@ namespace TalentAtmClient.Atm.UI
 
                                 int recipientAccountNumber = int.Parse(Console.ReadLine());
 
-                                Console.WriteLine("Enter the transfer amount:");
+                                Utility.PrintColorMessage(ConsoleColor.Cyan, "Enter the transfer amount:");
 
                                 decimal transferAmount = decimal.Parse(Console.ReadLine());
 
@@ -152,9 +152,9 @@ namespace TalentAtmClient.Atm.UI
                             break;
 
                         case 5:
-                            await talentAtmService.ViewAllTransactions(bankAccount);
+                            await talentAtmService.ViewAllTransactions(bankAccount, bankAccount.AccountNumber);
 
-                            Thread.Sleep(2500);
+                            Thread.Sleep(5500);
 
                             Console.Clear();
 
@@ -180,7 +180,7 @@ namespace TalentAtmClient.Atm.UI
                 }
                 else
                 {
-                    Console.WriteLine("Verification failed.");
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Verification failed.");
                 }
             }
             catch (FormatException)
