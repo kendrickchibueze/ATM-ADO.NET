@@ -22,9 +22,9 @@ A pragmatic run of ourexecutable assembly looks like this:
  * Place deposit
  * Make withdraw
  * Check card number and pin against bank account list object (Note: An SQL database is used for this project)
- *
+ * View All transactions
  * Make transfer (Transfer within the same bank but different account number)
- ## View bank transactions
+ ## Logic
 * **Business Rules** 🤷‍♀️:
 User is not allow to withdraw or transfer more than the balance amount.
 If user key in the wrong pin more than 3 times, the bank account will be locked and the user cannever be able to loggin again.
