@@ -8,11 +8,18 @@ namespace TalentAtmClient
     internal class Program
     {
         static async Task Main(string[] args)
+
         {
-            Utility.PrintColorMessage(ConsoleColor.Cyan, "************Welcome To My Bank Atm App*************");
+            
 
 
-            await LoginAdminUser.Login();
+            await TalentAtmDB.CreateDBAndTables();
+
+            Thread.Sleep(1000);
+
+            RunClient client = new RunClient();
+
+            await client.Run();
 
 
 

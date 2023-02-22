@@ -1,69 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL
 {
-    public  class TalentAtmDB
+    public class TalentAtmDB
     {
 
-        public  static async Task CreateDBAndTables()
+        public static async Task CreateDBAndTables()
         {
             // Connection string for the local SQL Server instance
             string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";
 
-            // SQL query to create the database
-            string createDatabaseQuery = "CREATE DATABASE PTalentAtmDB";
+           
 
-            // SQL query to use the TalentAtmDB database
+            
+            string createDatabaseQuery = @"
+                                        IF NOT EXISTS(SELECT name FROM sys.databases WHERE name = 'PTalentAtmDB')
+                                        BEGIN
+                                            CREATE DATABASE PTalentAtmDB;
+                                        END";
+
+
+            
             string useDatabaseQuery = "USE PTalentAtmDB";
 
-            // SQL query to create the BankAccounts table
+       
             string createBankAccountsTableQuery = @"
-                CREATE TABLE BankAccounts (
-                    AccountNumber BIGINT PRIMARY KEY,
-                    FullName VARCHAR(50) NOT NULL,
-                    CardNumber BIGINT NOT NULL,
-                    PinCode INT NOT NULL,
-                    Balance DECIMAL(18,2) NOT NULL,
-                    isLocked BIT NOT NULL,
-                    FailedAttempts INT NOT NULL DEFAULT 0
-                )";
+                                        IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'BankAccounts')
+                                        BEGIN
+                                            CREATE TABLE BankAccounts (
+                                                AccountNumber BIGINT PRIMARY KEY,
+                                                FullName VARCHAR(50) NOT NULL,
+                                                CardNumber BIGINT NOT NULL,
+                                                PinCode INT NOT NULL,
+                                                Balance DECIMAL(18,2) NOT NULL,
+                                                isLocked BIT NOT NULL,
+                                                FailedAttempts INT NOT NULL DEFAULT 0
+                                            )
+                                        END";
 
-            // SQL query to create the TransactionType table
-            string createTransactionTypeTableQuery = @"
-                CREATE TABLE TransactionType (
-                    TransactionTypeId INT PRIMARY KEY IDENTITY(1,1),
-                    TransactionTypeName VARCHAR(50) NOT NULL
-                )";
 
-            // SQL query to create the Transactions table
-            string createTransactionsTableQuery = @"
-                CREATE TABLE Transactions (
-                    TransactionId INT PRIMARY KEY IDENTITY(1,1),
-                    BankAccountNoFrom BIGINT NOT NULL,
-                    BankAccountNoTo BIGINT NOT NULL,
-                    TransactionTypeId INT NOT NULL,
-                    TransactionAmount DECIMAL(18,2) NOT NULL,
-                    TransactionDate DATETIME NOT NULL,
-                    FOREIGN KEY (BankAccountNoFrom) REFERENCES BankAccounts(AccountNumber),
-                    FOREIGN KEY (BankAccountNoTo) REFERENCES BankAccounts(AccountNumber),
-                    FOREIGN KEY (TransactionTypeId) REFERENCES TransactionType(TransactionTypeId)
-                )";
 
-            // SQL query to create the VmTransfers table
-            string createVmTransfersTableQuery = @"
-                CREATE TABLE VmTransfers (
-                    TransferId INT PRIMARY KEY IDENTITY(1,1),
-                    TransferAmount DECIMAL(18,2) NOT NULL,
-                    RecipientBankAccountNumber BIGINT NOT NULL,
-                    RecipientBankAccountName VARCHAR(50) NOT NULL,
-                    FOREIGN KEY (RecipientBankAccountNumber) REFERENCES BankAccounts(AccountNumber)
-                )";
+        
+        string createTransactionTypeTableQuery = @"
+                                        IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TransactionType')
+                                        BEGIN
+                                            CREATE TABLE TransactionType (
+                                                TransactionTypeId INT PRIMARY KEY IDENTITY(1,1),
+                                                TransactionTypeName VARCHAR(50) NOT NULL
+                                            )
+                                        END";
+
+        
+        string createTransactionsTableQuery = @"
+                                            IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Transactions')
+                                            BEGIN
+                                                CREATE TABLE Transactions (
+                                                    TransactionId INT PRIMARY KEY IDENTITY(1,1),
+                                                    BankAccountNoFrom BIGINT NOT NULL,
+                                                    BankAccountNoTo BIGINT NOT NULL,
+                                                    TransactionTypeId INT NOT NULL,
+                                                    TransactionAmount DECIMAL(18,2) NOT NULL,
+                                                    TransactionDate DATETIME NOT NULL,
+                                                    FOREIGN KEY (BankAccountNoFrom) REFERENCES BankAccounts(AccountNumber),
+                                                    FOREIGN KEY (BankAccountNoTo) REFERENCES BankAccounts(AccountNumber),
+                                                    FOREIGN KEY (TransactionTypeId) REFERENCES TransactionType(TransactionTypeId)
+                                                )
+                                            END";
+
+
+      
+
+                // SQL query to create the VmTransfers table
+                string createVmTransfersTableQuery = @"
+                       IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'VmTransfers')
+                       BEGIN
+                        CREATE TABLE VmTransfers (
+                            TransferId INT PRIMARY KEY IDENTITY(1,1),
+                            TransferAmount DECIMAL(18,2) NOT NULL,
+                            RecipientBankAccountNumber BIGINT NOT NULL,
+                            RecipientBankAccountName VARCHAR(50) NOT NULL,
+                            FOREIGN KEY (RecipientBankAccountNumber) REFERENCES BankAccounts(AccountNumber)
+                        )
+                      END";
 
 
 
@@ -103,6 +129,8 @@ namespace TalentAtmDAL
                 (1008, 'Terry John', 23456789012340, 4567, 2000.00, 0),
                 (1009, 'Smith Curry', 23456789012341, 5643, 3000.00, 0),
                 (1011, 'Robert Johnson', 34567890123456, 3456, 7500.00, 1); ";
+
+
 
             // SQL query to insert data into the VmTransfers table
             string insertVmTransfersTableQuery = @"
@@ -199,7 +227,12 @@ namespace TalentAtmDAL
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
 
-            Console.ReadLine(); // wait for user to press enter before closing the console window.
+            
         }
+
+
+
+
+
     }
 }
