@@ -15,7 +15,9 @@ namespace TalentAtmDAL
 
 
 
-        public TalentAtmDBContext() : this(@"Data Source=DESKTOP-HTUFPR1\SQLEXPRESS;Initial Catalog=PTalentAtmDB;Integrated Security=True; MultipleActiveResultSets=true; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+
+        //TEST:Data Source=DESKTOP-HTUFPR1\SQLEXPRESS;Initial Catalog=PTalentAtmDB;Integrated Security=True; MultipleActiveResultSets=true; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+        public TalentAtmDBContext() : this(@"INSERT YOUR CONNECTION STRING...")
         {
 
         }
