@@ -117,6 +117,8 @@ namespace TalentAtmDAL
 
 
 
+        
+
             string insertBankAccountsTableQuery = @"
                 INSERT INTO BankAccounts(AccountNumber, FullName, CardNumber, PinCode, Balance, isLocked)
                 VALUES
@@ -188,37 +190,107 @@ namespace TalentAtmDAL
                         Utility.PrintColorMessage(ConsoleColor.Green, "Created VmTransfers table.");
                     }
 
-                    // Populate the TransactionType table
-                    using (SqlCommand command = new SqlCommand(populateTransactionTypeTableQuery, connection))
+
+
+
+                    // SQL query to check if TransactionType table is empty
+                    string checkTransactionTypeTableQuery = @"SELECT COUNT(*) FROM TransactionType";
+
+                    int TransactioTypeCount = 0;
+
+                    using (SqlCommand command = new SqlCommand(checkTransactionTypeTableQuery, connection))
                     {
-                        command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Populated TransactionType table.");
+                        TransactioTypeCount = (int)await command.ExecuteScalarAsync();
+                    }
+
+
+                    if (TransactioTypeCount == 0)
+                    {
+
+
+                        // Populate the TransactionType table
+                        using (SqlCommand command = new SqlCommand(populateTransactionTypeTableQuery, connection))
+                        {
+                            command.ExecuteNonQuery();
+                            Utility.PrintColorMessage(ConsoleColor.Green, "Populated TransactionType table.");
+                        }
                     }
 
 
 
-                    // Insert data into the BankAccounts table
-                    using (SqlCommand command = new SqlCommand(insertBankAccountsTableQuery, connection))
+
+                    // SQL query to check if BankAccounts table is empty
+                    string checkBankAccountsTableQuery = @"SELECT COUNT(*) FROM BankAccounts";
+
+                    int bankAccountsCount = 0;
+
+                    using (SqlCommand command = new SqlCommand(checkBankAccountsTableQuery, connection))
                     {
-                        command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
+                        bankAccountsCount = (int)await command.ExecuteScalarAsync();
                     }
 
 
-                    // Insert data into the Transactions table
-                    using (SqlCommand command = new SqlCommand(insertTransactionsTableQuery, connection))
+                    if (bankAccountsCount == 0)
                     {
-                        command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into Transactions table.");
+
+                        // Insert data into the BankAccounts table
+                        using (SqlCommand command = new SqlCommand(insertBankAccountsTableQuery, connection))
+                        {
+                            command.ExecuteNonQuery();
+                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
+                        }
+
                     }
 
-                    // Insert data into the VmTransfers table
-                    using (SqlCommand command = new SqlCommand(insertVmTransfersTableQuery, connection))
+
+
+                    // SQL query to check if Transactions table is empty
+                    string checkTransactionsTableQuery = @"SELECT COUNT(*) FROM Transactions";
+
+                    int TransactionsCount = 0;
+
+                    using (SqlCommand command = new SqlCommand(checkTransactionsTableQuery, connection))
                     {
-                        command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into VmTransfers table.");
+                        TransactionsCount = (int)await command.ExecuteScalarAsync();
                     }
 
+
+
+                    if (TransactionsCount == 0)
+                    {
+
+
+                        // Insert data into the Transactions table
+                        using (SqlCommand command = new SqlCommand(insertTransactionsTableQuery, connection))
+                        {
+                            command.ExecuteNonQuery();
+                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into Transactions table.");
+                        }
+                    }
+
+
+                    // SQL query to check if VmTransfers table is empty
+                    string checkVmTransferTableQuery = @"SELECT COUNT(*) FROM VmTransfers";
+
+                    int VmTransfersCount = 0;
+
+                    using (SqlCommand command = new SqlCommand(checkVmTransferTableQuery, connection))
+                    {
+                        VmTransfersCount = (int)await command.ExecuteScalarAsync();
+                    }
+
+
+                    if (VmTransfersCount == 0)
+                    {
+
+
+                        // Insert data into the VmTransfers table
+                        using (SqlCommand command = new SqlCommand(insertVmTransfersTableQuery, connection))
+                        {
+                            command.ExecuteNonQuery();
+                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into VmTransfers table.");
+                        }
+                    }
                     connection.Close();
                 }
             }
