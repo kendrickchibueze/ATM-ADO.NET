@@ -11,6 +11,7 @@ A pragmatic run of ourexecutable assembly looks like this:
 
 ## Database 😎🤷‍♀️
 A pragmatic Look at our BankAccount table  for the purpose of Login looks like this:
+
 ![](https://raw.githubusercontent.com/kendrickchibueze/-Modern-Node-on-AWS/36199e632d149477b9c498dab8ad25020c0a5670/Screenshot%20(521).png)
 
 ## Software Development Summary😃👓👓
