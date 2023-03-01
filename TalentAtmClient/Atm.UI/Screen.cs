@@ -1,18 +1,10 @@
-﻿using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentAtmDAL;
-
-namespace TalentAtmClient.Atm.UI
+﻿namespace TalentAtmClient.Atm.UI
 {
     public class Screen
     {
 
 
-       
+
 
 
         public static void ShowMenuOne()
@@ -48,10 +40,10 @@ namespace TalentAtmClient.Atm.UI
 
 
 
-            
+
         }
 
 
-      
+
     }
 }

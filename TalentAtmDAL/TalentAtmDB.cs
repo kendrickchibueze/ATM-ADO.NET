@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Data.SqlClient;
 using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL
@@ -18,9 +11,9 @@ namespace TalentAtmDAL
             // Connection string for the local SQL Server instance
             string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";
 
-           
 
-            
+
+
             string createDatabaseQuery = @"
                                         IF NOT EXISTS(SELECT name FROM sys.databases WHERE name = 'PTalentAtmDB')
                                         BEGIN
@@ -28,10 +21,10 @@ namespace TalentAtmDAL
                                         END";
 
 
-            
+
             string useDatabaseQuery = "USE PTalentAtmDB";
 
-       
+
             string createBankAccountsTableQuery = @"
                                         IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'BankAccounts')
                                         BEGIN
@@ -48,8 +41,8 @@ namespace TalentAtmDAL
 
 
 
-        
-        string createTransactionTypeTableQuery = @"
+
+            string createTransactionTypeTableQuery = @"
                                         IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TransactionType')
                                         BEGIN
                                             CREATE TABLE TransactionType (
@@ -58,8 +51,8 @@ namespace TalentAtmDAL
                                             )
                                         END";
 
-        
-        string createTransactionsTableQuery = @"
+
+            string createTransactionsTableQuery = @"
                                             IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Transactions')
                                             BEGIN
                                                 CREATE TABLE Transactions (
@@ -76,10 +69,10 @@ namespace TalentAtmDAL
                                             END";
 
 
-      
 
-                // SQL query to create the VmTransfers table
-                string createVmTransfersTableQuery = @"
+
+            // SQL query to create the VmTransfers table
+            string createVmTransfersTableQuery = @"
                        IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'VmTransfers')
                        BEGIN
                         CREATE TABLE VmTransfers (
@@ -117,7 +110,7 @@ namespace TalentAtmDAL
 
 
 
-        
+
 
             string insertBankAccountsTableQuery = @"
                 INSERT INTO BankAccounts(AccountNumber, FullName, CardNumber, PinCode, Balance, isLocked)
@@ -299,7 +292,7 @@ namespace TalentAtmDAL
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
 
-            
+
         }
 
 

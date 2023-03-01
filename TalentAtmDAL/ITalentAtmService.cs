@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TalentAtmDAL
+﻿namespace TalentAtmDAL
 {
-    public  interface ITalentAtmService:IDisposable
+    public interface ITalentAtmService : IDisposable
     {
         Task<BankAccounts> CheckBalance(BankAccounts bankAccount);
 
@@ -17,10 +11,10 @@ namespace TalentAtmDAL
         Task<bool> MakeWithdrawalAsync(BankAccounts bankAccount, decimal withdrawalAmount);
 
 
-         Task<bool> verifyCardNumberPassword(BankAccounts bankAccount);
+        Task<bool> verifyCardNumberPassword(BankAccounts bankAccount);
 
-        Task<bool>ViewAllTransactions(BankAccounts bankAccount, long loggedInAccountNumber);    
+        Task<bool> ViewAllTransactions(BankAccounts bankAccount, long loggedInAccountNumber);
 
-        
+
     }
 }

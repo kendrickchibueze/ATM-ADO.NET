@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using TalentAtmClient.Atm.UI;
+﻿using TalentAtmClient.Atm.UI;
 using TalentAtmDAL;
 
 namespace TalentAtmClient
@@ -10,7 +8,7 @@ namespace TalentAtmClient
         static async Task Main(string[] args)
 
         {
-            
+
 
 
             await TalentAtmDB.CreateDBAndTables();
@@ -27,9 +25,9 @@ namespace TalentAtmClient
         }
     }
 }
-    
 
 
 
 
-    
+
+

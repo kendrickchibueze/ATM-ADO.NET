@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentAtmDAL;
+﻿using TalentAtmDAL;
 
 namespace TalentAtmClient.Atm.UI
 {
@@ -18,9 +13,9 @@ namespace TalentAtmClient.Atm.UI
 
             Screen.ShowMenuTwo();
 
-            next: Utility.PrintColorMessage(ConsoleColor.Yellow, "\nWhat would you like to do next?");
+        next: Utility.PrintColorMessage(ConsoleColor.Yellow, "\nWhat would you like to do next?");
 
-            tryAction: Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
+        tryAction: Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
 
             while (true)
             {

@@ -1,11 +1,4 @@
-﻿
-using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TalentAtmDAL;
+﻿using TalentAtmDAL;
 using TalentAtmDAL.Services;
 
 namespace TalentAtmClient.Atm.UI
@@ -19,7 +12,7 @@ namespace TalentAtmClient.Atm.UI
         public async Task Run()
         {
             Console.Clear();
-           
+
             using (ITalentAtmService talentAtmService = new TalentAtmService(new TalentAtmDBContext()))
             {
                 await WelcomeMethod(talentAtmService);
@@ -59,9 +52,9 @@ namespace TalentAtmClient.Atm.UI
 
 
 
-       
 
-       
+
+
     }
 
 }
