@@ -3,7 +3,8 @@ This is  an ATM console application built with C#👓.It is designed using objec
 
  ![](https://github.com/kendrickchibueze/-Modern-Node-on-AWS/blob/main/aws-images/Screenshot%20(499).png?raw=true)
 
-
+## Usage😃
+* Copy and paste your connection string at the DbContext class constructor
 
 A pragmatic run of ourexecutable assembly looks like this:
 
