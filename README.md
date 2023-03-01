@@ -9,6 +9,11 @@ A pragmatic run of ourexecutable assembly looks like this:
 
 ![](https://raw.githubusercontent.com/kendrickchibueze/-Modern-Node-on-AWS/5d6752d563ac41bcdf4c1419a5337a4dcae2cbf4/aws-images/Screenshot%20(395).png)
 
+## Database 😎🤷‍♀️
+A pragmatic Look at our BankAccount table  for the purpose of Login looks like this:
+
+![](https://raw.githubusercontent.com/kendrickchibueze/-Modern-Node-on-AWS/36199e632d149477b9c498dab8ad25020c0a5670/Screenshot%20(521).png)
+
 ## Software Development Summary😃👓👓
 * **Technology**: C#👓
 * **Framework**: .NET6
