@@ -7,10 +7,10 @@ namespace TalentAtmClient.Atm.UI
 
         private static async Task RunVerification(ITalentAtmService talentAtmService)
         {
+
+        checkInput: Utility.PrintColorMessage(ConsoleColor.Cyan, "Enter your account number:");
             try
             {
-                Utility.PrintColorMessage(ConsoleColor.Cyan, "Enter your account number:");
-
                 int accountNumber = int.Parse(Console.ReadLine());
 
                 Utility.PrintColorMessage(ConsoleColor.Cyan, "Enter your card number:");
@@ -34,6 +34,8 @@ namespace TalentAtmClient.Atm.UI
                 {
                     Utility.PrintColorMessage(ConsoleColor.Green, "Verification successful.");
 
+                    await Task.Delay(1000);
+
                     Screen.ShowMenuTwo();
 
                     _choiceAgain = int.Parse(Console.ReadLine());
@@ -45,7 +47,8 @@ namespace TalentAtmClient.Atm.UI
 
                             await talentAtmService.CheckBalance(bankAccount);
 
-                            Thread.Sleep(2500);
+                            await Task.Delay(2500);
+
 
                             await NextAction(talentAtmService, bankAccount);
 
@@ -70,7 +73,7 @@ namespace TalentAtmClient.Atm.UI
                                 goto input;
                             }
 
-                            Thread.Sleep(2500);
+                            await Task.Delay(2500);
 
                             Console.Clear();
 
@@ -97,7 +100,7 @@ namespace TalentAtmClient.Atm.UI
 
                                 goto inputAgain;
                             }
-                            Thread.Sleep(2500);
+                            await Task.Delay(2500);
 
                             await NextAction(talentAtmService, bankAccount);
 
@@ -140,7 +143,8 @@ namespace TalentAtmClient.Atm.UI
                                 goto inputTwo;
 
                             }
-                            Thread.Sleep(2500);
+
+                            await Task.Delay(2500);
 
                             await NextAction(talentAtmService, bankAccount);
 
@@ -149,7 +153,9 @@ namespace TalentAtmClient.Atm.UI
                         case 5:
                             await talentAtmService.ViewAllTransactions(bankAccount, bankAccount.AccountNumber);
 
-                            Thread.Sleep(5500);
+
+
+                            await Task.Delay(5500);
 
                             Console.Clear();
 
@@ -176,16 +182,26 @@ namespace TalentAtmClient.Atm.UI
                 else
                 {
                     Utility.PrintColorMessage(ConsoleColor.Red, "Verification failed.");
+                    goto checkInput;
                 }
             }
             catch (FormatException)
             {
                 Utility.PrintColorMessage(ConsoleColor.Red, "Invalid input format. Please enter a valid number.");
+                goto checkInput;
+
             }
             catch (Exception ex)
             {
                 Utility.PrintColorMessage(ConsoleColor.Red, $"An error occurred: {ex.Message}");
+                goto checkInput;
             }
         }
+
+
+
+
+
+
     }
 }

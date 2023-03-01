@@ -27,7 +27,8 @@ namespace TalentAtmClient.Atm.UI
 
             Utility.PrintColorMessage(ConsoleColor.Cyan, "************Welcome To My Bank Atm App*************");
 
-            Thread.Sleep(1000);
+
+            await Task.Delay(2000);
 
             Screen.ShowMenuOne();
 

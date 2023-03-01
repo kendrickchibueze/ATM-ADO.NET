@@ -9,7 +9,7 @@ namespace TalentAtmDAL
         public static async Task CreateDBAndTables()
         {
             // Connection string for the local SQL Server instance
-            string connectionString = "Server= ;Integrated security=SSPI;database=master";
+            string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";
 
 
 
@@ -145,42 +145,42 @@ namespace TalentAtmDAL
                     using (SqlCommand command = new SqlCommand(createDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Created PTalentAtmDB database.");
+                        
                     }
 
                     // Use the PTalentAtmDB database
                     using (SqlCommand command = new SqlCommand(useDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Using PTalentAtmDB database.");
+                       ;
                     }
 
                     // Create the BankAccounts table
                     using (SqlCommand command = new SqlCommand(createBankAccountsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Created BankAccounts table.");
+                       
                     }
 
                     // Create the TransactionType table
                     using (SqlCommand command = new SqlCommand(createTransactionTypeTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Created TransactionType table.");
+                      
                     }
 
                     // Create the Transactions table
                     using (SqlCommand command = new SqlCommand(createTransactionsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Created Transactions table.");
+                        
                     }
 
                     // Create the VmTransfers table
                     using (SqlCommand command = new SqlCommand(createVmTransfersTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                        Utility.PrintColorMessage(ConsoleColor.Green, "Created VmTransfers table.");
+                      
                     }
 
 
@@ -205,7 +205,7 @@ namespace TalentAtmDAL
                         using (SqlCommand command = new SqlCommand(populateTransactionTypeTableQuery, connection))
                         {
                             command.ExecuteNonQuery();
-                            Utility.PrintColorMessage(ConsoleColor.Green, "Populated TransactionType table.");
+                           
                         }
                     }
 
@@ -230,7 +230,7 @@ namespace TalentAtmDAL
                         using (SqlCommand command = new SqlCommand(insertBankAccountsTableQuery, connection))
                         {
                             command.ExecuteNonQuery();
-                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
+                            //Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
                         }
 
                     }
@@ -281,7 +281,7 @@ namespace TalentAtmDAL
                         using (SqlCommand command = new SqlCommand(insertVmTransfersTableQuery, connection))
                         {
                             command.ExecuteNonQuery();
-                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into VmTransfers table.");
+                           
                         }
                     }
                     connection.Close();
