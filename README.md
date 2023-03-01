@@ -5,9 +5,9 @@ This is  an ATM console application built with C#👓.It is designed using objec
 
 ## Usage😃
 
-* Copy and paste your DataSource in the provided connection string  at the DbContext class constructor.
+* Copy and paste your DataSource name in the provided connection string  at the DbContext class constructor.
 
-A pragmatic run of ourexecutable assembly looks like this:
+A pragmatic run of our executable assembly looks like this:
 
 ![](https://raw.githubusercontent.com/kendrickchibueze/-Modern-Node-on-AWS/5d6752d563ac41bcdf4c1419a5337a4dcae2cbf4/aws-images/Screenshot%20(395).png)
 
