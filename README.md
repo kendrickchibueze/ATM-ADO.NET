@@ -5,7 +5,7 @@ This is  an ATM console application built with C#👓.It is designed using objec
 
 ## Usage😃
 
-* Copy and paste your DataSource name in the provided connection string  at the DbContext class constructor.
+* Copy and paste your DataSource name in the provided connection string  at the DbContext class constructor and TalentAtmDB class.
 
 A pragmatic run of our executable assembly looks like this:
 
