@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 
 namespace TalentAtmDAL
 {
@@ -14,13 +15,11 @@ namespace TalentAtmDAL
 
 
 
-
-
-
-        public TalentAtmDBContext() : this(@"Data Source=DESKTOP-HTUFPR1\SQLEXPRESS;Initial Catalog=PTalentAtmDB;Integrated Security=True; MultipleActiveResultSets=true; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")
+        public TalentAtmDBContext() : this(ConfigurationManager.ConnectionStrings["DATA"].ConnectionString)
         {
 
         }
+
 
         public TalentAtmDBContext(string connString)
         {

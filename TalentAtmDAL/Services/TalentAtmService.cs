@@ -42,13 +42,17 @@ namespace TalentAtmDAL.Services
         {
             SqlConnection sqlConn = await _dbContext.OpenConnection();
 
+
+
+
             var transferSql = @"
                             BEGIN TRANSACTION
                                 UPDATE BankAccounts SET Balance = Balance - @TransferAmount WHERE AccountNumber = @SenderAccountNumber;
                                 UPDATE BankAccounts SET Balance = Balance + @TransferAmount WHERE AccountNumber = @RecipientAccountNumber;
                                 INSERT INTO Transactions (BankAccountNoFrom, BankAccountNoTo, TransactionTypeId, TransactionAmount, TransactionDate)
-                                VALUES (@SenderAccountNumber, @RecipientAccountNumber, 1, @TransferAmount, GETDATE());
+                                VALUES (@SenderAccountNumber, @RecipientAccountNumber, 4, @TransferAmount, GETDATE());
                             COMMIT TRANSACTION";
+
 
             int senderAccountNumber = bankAccount.AccountNumber;
             long recipientAccountNumber = transfer.RecipientBankAccountNumber;
@@ -59,6 +63,7 @@ namespace TalentAtmDAL.Services
                 command.Parameters.AddWithValue("@TransferAmount", transferAmount);
                 command.Parameters.AddWithValue("@SenderAccountNumber", senderAccountNumber);
                 command.Parameters.AddWithValue("@RecipientAccountNumber", recipientAccountNumber);
+
 
                 var transferResult = await command.ExecuteNonQueryAsync();
 
@@ -72,6 +77,8 @@ namespace TalentAtmDAL.Services
 
             return true;
         }
+
+
 
 
 

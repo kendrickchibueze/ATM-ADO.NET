@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL
@@ -8,9 +9,22 @@ namespace TalentAtmDAL
 
         public static async Task CreateDBAndTables()
         {
-            
-            string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";
 
+
+            string connectionString = ConfigurationManager.ConnectionStrings["DATA"].ConnectionString;
+
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new Exception("Connection string not found or invalid.");
+            }
+
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+            string dataSource = builder.DataSource;
+            string integratedSecurity = "Integrated security=SSPI;";
+            string databaseName = "database=master;";
+            string serverName = "Server=" + dataSource + ";";
+            string newConnectionString = serverName + integratedSecurity + databaseName;
 
 
 
@@ -127,46 +141,46 @@ namespace TalentAtmDAL
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(newConnectionString))
                 {
                     connection.Open();
 
-                    // Create the PTalentAtmDB database
+                    
                     using (SqlCommand command = new SqlCommand(createDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
                         
                     }
 
-                    // Use the PTalentAtmDB database
+                    
                     using (SqlCommand command = new SqlCommand(useDatabaseQuery, connection))
                     {
                         command.ExecuteNonQuery();
-                       ;
+                       
                     }
 
-                    // Create the BankAccounts table
+                   
                     using (SqlCommand command = new SqlCommand(createBankAccountsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
                        
                     }
 
-                    // Create the TransactionType table
+                  
                     using (SqlCommand command = new SqlCommand(createTransactionTypeTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
                       
                     }
 
-                    // Create the Transactions table
+                    
                     using (SqlCommand command = new SqlCommand(createTransactionsTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
                         
                     }
 
-                    // Create the VmTransfers table0
+                    
                     using (SqlCommand command = new SqlCommand(createVmTransfersTableQuery, connection))
                     {
                         command.ExecuteNonQuery();

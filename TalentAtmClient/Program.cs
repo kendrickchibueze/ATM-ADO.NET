@@ -13,7 +13,7 @@ namespace TalentAtmClient
 
             await TalentAtmDB.CreateDBAndTables();
 
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
 
             RunClient client = new RunClient();
 
