@@ -6,7 +6,7 @@ This is  an ATM console application built with C#👓.It is designed using objec
 ## Usage😃
 * Clone the repository: ``` git clone https://github.com/kendrickchibueze/ATM-ADO.NET.git```
 
-* Copy and paste your DataSource name in the provided connection string  at the DbContext class constructor and TalentAtmDB class.
+* Copy and paste your DataSource name into the  connection string  of the App.Config file.
 
 A pragmatic run of our executable assembly looks like this:
 
