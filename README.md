@@ -4,7 +4,7 @@ This is  an ATM console application built with C#👓.It is designed using objec
  ![](https://github.com/kendrickchibueze/-Modern-Node-on-AWS/blob/main/aws-images/Screenshot%20(499).png?raw=true)
 
 ## Usage😃
-* Clone the repository: ```c# https://github.com/kendrickchibueze/ATM-ADO.NET.git```
+* Clone the repository: ``` https://github.com/kendrickchibueze/ATM-ADO.NET.git```
 
 * Copy and paste your DataSource name in the provided connection string  at the DbContext class constructor and TalentAtmDB class.
 
