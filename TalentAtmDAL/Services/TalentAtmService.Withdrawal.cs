@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL.Services
 {
@@ -33,14 +34,14 @@ namespace TalentAtmDAL.Services
 
                         var remainingBalance = await remainingCommand.ExecuteScalarAsync();
 
-                        Console.WriteLine($"Withdrawal successful. Amount withdrawn: {FormatAmount(withdrawalAmount)}. Remaining balance: {FormatAmount((decimal)remainingBalance)}");
+                        Utility.PrintColorMessage(ConsoleColor.Green, $"Withdrawal successful. Amount withdrawn: {FormatAmount(withdrawalAmount)}. Remaining balance: {FormatAmount((decimal)remainingBalance)}");
                     }
 
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine("Withdrawal failed.");
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Withdrawal failed.");
 
                     return false;
                 }

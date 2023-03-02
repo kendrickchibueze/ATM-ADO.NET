@@ -6,13 +6,13 @@
 
 
 
-        public static void printDotAnimation(int timer = 10)
+        public static async Task printDotAnimation(int timer = 10)
         {
             for (var x = 0; x < timer; x++)
             {
                 PrintColorMessage(ConsoleColor.Yellow, ".");
 
-                Thread.Sleep(100);
+                Task.Delay(100);
             }
             Console.WriteLine();
         }

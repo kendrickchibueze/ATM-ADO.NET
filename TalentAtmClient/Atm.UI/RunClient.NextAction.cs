@@ -5,96 +5,76 @@ namespace TalentAtmClient.Atm.UI
     public partial class RunClient
     {
 
-
-        public static async Task NextAction(ITalentAtmService talentAtmService, BankAccounts bankAccount)
+        private static async Task NextActions(ITalentAtmService talentAtmService, BankAccounts bankAccount)
         {
-            Console.Clear();
+            bool exit = false;
 
-            Screen.ShowMenuTwo();
-
-            next: Utility.PrintColorMessage(ConsoleColor.Yellow, "\nWhat would you like to do next?");
-
-            tryAction: Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
-
-            while (true)
+            do
             {
+                Screen.ShowMenuTwo();
+
+                Utility.PrintColorMessage(ConsoleColor.Yellow, "\nWhat would you like to do next?");
+
+                Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
+
+                int nextChoice = int.Parse(Console.ReadLine());
+
+                _choiceAgain = nextChoice;
+
                 try
                 {
-                    int _choiceNext = int.Parse(Console.ReadLine());
-
-                    switch (_choiceNext)
+                    switch (_choiceAgain)
                     {
                         case 1:
                             await talentAtmService.CheckBalance(bankAccount);
-                            goto next;
+
+                            await talentAtmService.InsertTransaction(bankAccount, bankAccount.AccountNumber, bankAccount.Balance, "Balance Enquiry");
+
+                            await Task.Delay(3000);
+                            break;
 
                         case 2:
-                            Utility.PrintColorMessage(ConsoleColor.Cyan, "please enter the deposit amount..");
-
-                            decimal depositAmount = decimal.Parse(Console.ReadLine());
-
-                            await talentAtmService.DepositMoney(bankAccount, depositAmount);
-
-                            goto next;
+                            await RunDepositMoney(talentAtmService, bankAccount);
+                            break;
 
                         case 3:
-                            Utility.PrintColorMessage(ConsoleColor.Cyan, "please enter the withdrawal amount..");
-
-                            decimal withdrawalAmount = decimal.Parse(Console.ReadLine());
-
-                            await talentAtmService.MakeWithdrawalAsync(bankAccount, withdrawalAmount);
-
-                            goto next;
+                            await RunMakeWithdrawalAsync(talentAtmService, bankAccount);
+                            break;
 
                         case 4:
-                            Utility.PrintColorMessage(ConsoleColor.Cyan, "enter the recipient account number...");
-
-                            int recipientAccountNumber = int.Parse(Console.ReadLine());
-
-                            Console.WriteLine("Enter the transfer amount:");
-
-                            decimal transferAmount = decimal.Parse(Console.ReadLine());
-
-                            VmTransfer transfer = new VmTransfer
-                            {
-                                RecipientBankAccountNumber = recipientAccountNumber,
-
-                                TransferAmount = transferAmount
-                            };
-                            await talentAtmService.performTransferAsync(bankAccount, transfer);
-
-                            goto next;
+                            await RunPerformTransferAsync(talentAtmService, bankAccount);
+                            break;
 
                         case 5:
-                            await talentAtmService.ViewAllTransactions(bankAccount, bankAccount.AccountNumber);
+                            await talentAtmService.ViewAllTransactions(bankAccount.AccountNumber);
 
-                            goto next;
-                        case 6:
-                            Environment.Exit(0);
+                            await Task.Delay(6500);
+
+                            Console.Clear();
 
                             break;
+
+                        case 6:
+                            Environment.Exit(0);
+                            break;
+
                         default:
-
-                            Utility.PrintColorMessage(ConsoleColor.Red, "Invalid input. Please enter a valid option.");
-
-                            goto tryAction;
+                            break;
                     }
                 }
-                catch (FormatException)
+                catch (FormatException ex)
                 {
-                    Utility.PrintColorMessage(ConsoleColor.Red, "Invalid input. Please enter a valid number.");
-
-                    goto tryAction;
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Error: Invalid input. Please enter a number.");
                 }
                 catch (Exception ex)
                 {
                     Utility.PrintColorMessage(ConsoleColor.Red, $"An error occurred: {ex.Message}");
-
-                    goto tryAction;
-                    
                 }
-            }
+
+            } while (!exit);
         }
+
+
 
     }
 }

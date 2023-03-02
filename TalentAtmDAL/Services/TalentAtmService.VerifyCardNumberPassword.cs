@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL.Services
 {
@@ -25,7 +26,7 @@ namespace TalentAtmDAL.Services
 
                         if (isLocked)
                         {
-                            Console.WriteLine("The account is locked due to too many failed attempts.");
+                            Utility.PrintColorMessage(ConsoleColor.Red, "The account is locked due to too many failed attempts.");
                             return false;
                         }
                         else
@@ -68,7 +69,7 @@ namespace TalentAtmDAL.Services
                     }
                     else
                     {
-                        Console.WriteLine("Account not found.");
+                        Utility.PrintColorMessage(ConsoleColor.Red, "Account not found.");
                         return false;
                     }
                 }
@@ -91,7 +92,7 @@ namespace TalentAtmDAL.Services
                     blockCommand.ExecuteNonQuery();
                 }
 
-                Console.WriteLine("The account has been locked due to too many failed attempts.");
+                Utility.PrintColorMessage(ConsoleColor.Red, "The account has been locked due to too many failed attempts.");
 
                 return false;
             }

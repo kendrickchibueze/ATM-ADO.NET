@@ -13,8 +13,10 @@
 
         Task<bool> verifyCardNumberPassword(BankAccounts bankAccount);
 
-        Task<bool> ViewAllTransactions(BankAccounts bankAccount, long loggedInAccountNumber);
+        Task<bool> InsertTransaction(BankAccounts bankAccount, long loggedInAccountNumber, decimal amount, string transactionTypeName);
 
+       
+        Task ViewAllTransactions(long loggedInAccountNumber);
 
     }
 }

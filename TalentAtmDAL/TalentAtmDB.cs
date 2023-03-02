@@ -8,7 +8,7 @@ namespace TalentAtmDAL
 
         public static async Task CreateDBAndTables()
         {
-            // Connection string for the local SQL Server instance
+            
             string connectionString = "Server=DESKTOP-HTUFPR1\\SQLEXPRESS;Integrated security=SSPI;database=master";
 
 
@@ -100,17 +100,7 @@ namespace TalentAtmDAL
 
                 SET IDENTITY_INSERT TransactionType OFF;";
 
-            // SQL query to insert data into the Transactions table
-            string insertTransactionsTableQuery = @"
-                INSERT INTO Transactions (BankAccountNoFrom, BankAccountNoTo, TransactionTypeId, TransactionAmount, TransactionDate)
-                VALUES 
-                    (1001, 1002, 4, 500.00, CURRENT_TIMESTAMP),
-                    (1003, 1001, 2, 1000.00, CURRENT_TIMESTAMP),
-                    (1002, 1003, 3, 1000.00, CURRENT_TIMESTAMP);";
-
-
-
-
+           
 
             string insertBankAccountsTableQuery = @"
                 INSERT INTO BankAccounts(AccountNumber, FullName, CardNumber, PinCode, Balance, isLocked)
@@ -176,7 +166,7 @@ namespace TalentAtmDAL
                         
                     }
 
-                    // Create the VmTransfers table
+                    // Create the VmTransfers table0
                     using (SqlCommand command = new SqlCommand(createVmTransfersTableQuery, connection))
                     {
                         command.ExecuteNonQuery();
@@ -230,7 +220,7 @@ namespace TalentAtmDAL
                         using (SqlCommand command = new SqlCommand(insertBankAccountsTableQuery, connection))
                         {
                             command.ExecuteNonQuery();
-                            //Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into BankAccounts table.");
+                            
                         }
 
                     }
@@ -247,19 +237,6 @@ namespace TalentAtmDAL
                         TransactionsCount = (int)await command.ExecuteScalarAsync();
                     }
 
-
-
-                    if (TransactionsCount == 0)
-                    {
-
-
-                        // Insert data into the Transactions table
-                        using (SqlCommand command = new SqlCommand(insertTransactionsTableQuery, connection))
-                        {
-                            command.ExecuteNonQuery();
-                            Utility.PrintColorMessage(ConsoleColor.Green, "Inserted data into Transactions table.");
-                        }
-                    }
 
 
                     // SQL query to check if VmTransfers table is empty

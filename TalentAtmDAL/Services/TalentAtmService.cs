@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Globalization;
+using TalentAtmClient.Atm.UI;
 
 namespace TalentAtmDAL.Services
 {
@@ -61,9 +62,9 @@ namespace TalentAtmDAL.Services
 
                 var transferResult = await command.ExecuteNonQueryAsync();
 
-                Console.WriteLine($"{transferResult} rows updated.");
 
-                Console.WriteLine($"Amount transferred: {transferAmount:C}");
+
+                Utility.PrintColorMessage(ConsoleColor.Green, $"Amount transferred: {transferAmount:C}");
 
 
             }
@@ -97,13 +98,13 @@ namespace TalentAtmDAL.Services
                         bankAccount.Balance = balance;
                         bankAccount.FullName = fullName;
 
-                        Console.WriteLine($"Welcome {bankAccount.FullName}, your Balance  is {FormatAmount(bankAccount.Balance)}");
+                        Utility.PrintColorMessage(ConsoleColor.Green, $"Welcome {bankAccount.FullName}, your Balance  is {FormatAmount(bankAccount.Balance)}");
 
                         return bankAccount;
                     }
                     else
                     {
-                        Console.WriteLine($"Invalid account number: {bankAccount.AccountNumber}");
+                        Utility.PrintColorMessage(ConsoleColor.Red, $"Invalid account number: {bankAccount.AccountNumber}");
                         return null;
                     }
                 }
@@ -130,7 +131,7 @@ namespace TalentAtmDAL.Services
                 {
                     bankAccount.Balance = (decimal)result;
 
-                    Console.WriteLine($"Deposited amount: {FormatAmount(depositAmount)}. New balance: {FormatAmount(bankAccount.Balance)}");
+                    Utility.PrintColorMessage(ConsoleColor.Green, $"Deposited amount: {FormatAmount(depositAmount)}. New balance: {FormatAmount(bankAccount.Balance)}");
                 }
             }
 
