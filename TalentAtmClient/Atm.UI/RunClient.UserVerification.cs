@@ -180,7 +180,8 @@ namespace TalentAtmClient.Atm.UI
                 if (depositAmount < 0)
                 {
                     Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot deposit a negative amount.");
-                    
+                    goto input;
+
                 }
 
                 await talentAtmService.DepositMoney(bankAccount, depositAmount);
@@ -217,6 +218,7 @@ namespace TalentAtmClient.Atm.UI
                 if (transferAmount < 0)
                 {
                     Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot transfer a negative amount.");
+                    goto inputTwo;
                     
                 }
 
@@ -266,6 +268,7 @@ namespace TalentAtmClient.Atm.UI
                 if(withdrawalAmount <0)
                 {
                     Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot withdraw a negative amount.");
+                    goto inputAgain;
                 }
 
                 await talentAtmService.MakeWithdrawalAsync(bankAccount, withdrawalAmount);
