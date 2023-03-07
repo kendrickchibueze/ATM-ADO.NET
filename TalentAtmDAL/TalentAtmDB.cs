@@ -272,7 +272,7 @@ namespace TalentAtmDAL
                         using (SqlCommand command = new SqlCommand(insertVmTransfersTableQuery, connection))
                         {
                             command.ExecuteNonQuery();
-                           
+
                         }
                     }
                     connection.Close();

@@ -177,6 +177,12 @@ namespace TalentAtmClient.Atm.UI
 
                 decimal depositAmount = decimal.Parse(Console.ReadLine());
 
+                if (depositAmount < 0)
+                {
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot deposit a negative amount.");
+                    
+                }
+
                 await talentAtmService.DepositMoney(bankAccount, depositAmount);
 
                 await talentAtmService.InsertTransaction(bankAccount, bankAccount.AccountNumber, depositAmount, "Cash Deposit");
@@ -208,6 +214,11 @@ namespace TalentAtmClient.Atm.UI
                 Utility.PrintColorMessage(ConsoleColor.Cyan, "Enter the transfer amount:");
 
                 decimal transferAmount = decimal.Parse(Console.ReadLine());
+                if (transferAmount < 0)
+                {
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot transfer a negative amount.");
+                    
+                }
 
                 VmTransfer transfer = new VmTransfer
                 {
@@ -251,6 +262,11 @@ namespace TalentAtmClient.Atm.UI
             try
             {
                 decimal withdrawalAmount = decimal.Parse(Console.ReadLine());
+
+                if(withdrawalAmount <0)
+                {
+                    Utility.PrintColorMessage(ConsoleColor.Red, "Error: Cannot withdraw a negative amount.");
+                }
 
                 await talentAtmService.MakeWithdrawalAsync(bankAccount, withdrawalAmount);
 

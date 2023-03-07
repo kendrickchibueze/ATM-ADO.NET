@@ -22,31 +22,45 @@ namespace TalentAtmClient.Atm.UI
 
         }
 
-        private static async Task WelcomeMethod(ITalentAtmService talentAtmService)
+       
+
+
+        public static async Task WelcomeMethod(ITalentAtmService talentAtmService)
         {
 
-            Utility.PrintColorMessage(ConsoleColor.Cyan, "************Welcome To My Bank Atm App*************");
-
-
-            await Task.Delay(2000);
-
-            Screen.ShowMenuOne();
-
-            Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
-
-            _choice = int.Parse(Console.ReadLine());
-
-
-            switch (_choice)
+        inputTry: Utility.PrintColorMessage(ConsoleColor.Cyan, "\nPlease enter an option:");
+            try
             {
-                case 1:
-                    await RunVerification(talentAtmService);
-                    break;
-                case 2:
-                    Environment.Exit(0);
+                Screen.ShowMenuOne();
 
-                    break;
 
+
+                _choice = int.Parse(Console.ReadLine());
+
+
+                switch (_choice)
+                {
+                    case 1:
+                        await RunVerification(talentAtmService);
+                        break;
+                    case 2:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Utility.PrintColorMessage(ConsoleColor.Red, "\nInvalid input. Please enter a valid option.");
+                        goto inputTry;
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                Utility.PrintColorMessage(ConsoleColor.Red, "\nInvalid input format. Please enter a valid integer option.");
+                goto inputTry;
+            }
+            catch (Exception ex)
+            {
+                Utility.PrintColorMessage(ConsoleColor.Red, $"\nAn error occurred: {ex.Message}");
+                goto inputTry;
             }
         }
 

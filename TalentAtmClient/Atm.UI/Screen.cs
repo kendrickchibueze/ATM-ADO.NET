@@ -10,6 +10,7 @@
         public static void ShowMenuOne()
         {
             Console.Clear();
+            Utility.PrintColorMessage(ConsoleColor.Cyan, "************Welcome To My Bank Atm App*************");
             Utility.PrintColorMessage(ConsoleColor.Yellow, " ------------------------");
             Utility.PrintColorMessage(ConsoleColor.Yellow, "| TalentBank ATM Menu    |");
             Utility.PrintColorMessage(ConsoleColor.Yellow, "|                        |");
